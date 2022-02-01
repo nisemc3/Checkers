@@ -1,8 +1,10 @@
 #include "piece.h"
 
-Piece::Piece(bool enemyPiece, QRectF rectF)
-    : QGraphicsObject(), m_rectF(rectF), m_enemyPiece(enemyPiece)
+Piece::Piece(bool enemyPiece, QRect rect)
+    : QGraphicsObject(), m_rect(rect), m_enemyPiece(enemyPiece)
 {
+    this->setAcceptHoverEvents(true);
+    this->setAcceptedMouseButtons(Qt::MouseButton::LeftButton);
     m_brush.setStyle(Qt::Dense5Pattern);
     if (m_enemyPiece)
         m_brush.setColor(Qt::red);
@@ -12,13 +14,13 @@ Piece::Piece(bool enemyPiece, QRectF rectF)
 
 QRectF Piece::boundingRect() const
 {
-    return m_rectF;
+    return m_rect;
 }
 
 void Piece::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(m_brush);
-    painter->drawEllipse(m_rectF);
+    painter->drawEllipse(m_rect);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 }
@@ -26,5 +28,11 @@ void Piece::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 void Piece::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     m_brush.setStyle(Qt::SolidPattern);
+    Q_UNUSED(event);
+}
+
+void Piece::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    m_brush.setStyle(Qt::Dense5Pattern);
     Q_UNUSED(event);
 }

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "gametable.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +16,14 @@ class MainWindow : public QMainWindow
         MainWindow(QWidget *parent = nullptr);
         ~MainWindow();
 
+
     private:
-        Ui::MainWindow *ui;
+        Ui::MainWindow *ui;   
+        GameTable* m_gameTable;
+        quint8 m_squareSize = 9;
+
+    protected:
+        void resizeEvent(QResizeEvent *) override;
+
 };
 #endif // MAINWINDOW_H
